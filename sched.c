@@ -490,7 +490,7 @@ struct rt_rq {
 #endif
 };
 
-/* added by Jia Rao: define wrr runqueue here */
+/* define wrr runqueue here */
 struct wrr_rq {
     struct list_head ready_tasks; //list of users with tasks ready to run
     struct rq *rq;
@@ -1831,7 +1831,7 @@ static void calc_load_account_active(struct rq *this_rq);
 #include "sched_idletask.c"
 #include "sched_wrr.c"
 #include "sched_fair.c"
-//#include "sched_wrr.c" // added by Jia Rao: include the wrr policy order matters !!!
+//#include "sched_wrr.c" // include the wrr policy order matters !!!
 #include "sched_rt.c"
 #ifdef CONFIG_SCHED_DEBUG
 # include "sched_debug.c"
@@ -2541,7 +2541,7 @@ static void __sched_fork(struct task_struct *p)
 #endif
 
 	INIT_LIST_HEAD(&p->rt.run_list);
-	INIT_LIST_HEAD(&p->wrr.run_list);//added by Jia Rao: initialize the process's runqueue pointer
+	INIT_LIST_HEAD(&p->wrr.run_list);// initialize the process's runqueue pointer
 	p->se.on_rq = 0;
 	INIT_LIST_HEAD(&p->se.group_node);
 
@@ -6465,7 +6465,7 @@ SYSCALL_DEFINE3(sched_setscheduler, pid_t, pid, int, policy,
 	return do_sched_setscheduler(pid, policy, param);
 }
 
-//added by Jia Rao: implement the new system call. Borrow ideas from syscall sched_setscheduler
+// implement the new system call. Borrow ideas from syscall sched_setscheduler
 SYSCALL_DEFINE3(set_wrr_scheduler, pid_t, pid, int, policy, struct sched_param __user *, weight){
    // printk(KERN_EMERG "GETS INSIDE THE SYSCALL\n");
     int retvalue = do_sched_setscheduler(pid, policy, weight);
@@ -9353,7 +9353,7 @@ static void init_rt_rq(struct rt_rq *rt_rq, struct rq *rq)
 	rt_rq->rq = rq;
 #endif
 }
-//added by Jia Rao: initialize the wrr runqueue
+// initialize the wrr runqueue
 static void init_wrr_rq(struct wrr_rq *wrr_rq, struct rq *rq){
     INIT_LIST_HEAD(&wrr_rq->ready_tasks);
     wrr_rq->rq = rq;
@@ -9522,7 +9522,7 @@ void __init sched_init(void)
 		rq->calc_load_update = jiffies + LOAD_FREQ;
 		init_cfs_rq(&rq->cfs, rq);
 		init_rt_rq(&rq->rt, rq);
-		init_wrr_rq(&rq->wrr, rq); //added by Jia Rao: initialize the wrr runqueue
+		init_wrr_rq(&rq->wrr, rq); // initialize the wrr runqueue
 #ifdef CONFIG_FAIR_GROUP_SCHED
 		init_task_group.shares = init_task_group_load;
 		INIT_LIST_HEAD(&rq->leaf_cfs_rq_list);

@@ -38,7 +38,7 @@
 #define SCHED_BATCH		3
 /* SCHED_ISO: reserved but not implemented yet */
 #define SCHED_IDLE		5
-#define SCHED_WRR              6 // Mod by Jia: define the new SCHED_WRR policy
+#define SCHED_WRR              6 // define the new SCHED_WRR policy
 /* Can be ORed in to make sure the process is reverted back to SCHED_NORMAL on fork */
 #define SCHED_RESET_ON_FORK     0x40000000
 
@@ -1210,7 +1210,7 @@ struct sched_rt_entity {
 	struct rt_rq		*my_q;
 #endif
 };
-//added by Jia Rao: define the wrr entity. 
+// define the wrr entity. 
 //It should at least include the pointer to the runqueue and its weight
 struct sched_wrr_entity {
     struct list_head run_list;
@@ -1252,7 +1252,7 @@ struct task_struct {
 	const struct sched_class *sched_class;
 	struct sched_entity se;
 	struct sched_rt_entity rt;
-        struct sched_wrr_entity wrr; //added by Jia Rao: add a wrr entity to each process
+        struct sched_wrr_entity wrr; // add a wrr entity to each process
 	int wrr_group; // this identifies the group where should be scheduled
 
 #ifdef CONFIG_PREEMPT_NOTIFIERS

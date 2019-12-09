@@ -17,6 +17,7 @@ void bind_thread_to_cpu(int cpuid) {
      CPU_ZERO(&mask);
 
      CPU_SET(cpuid, &mask);
+     // test exceptions
      if (sched_setaffinity(0, sizeof(cpu_set_t), &mask)) {
          fprintf(stderr, "sched_setaffinity");
          exit(EXIT_FAILURE);
@@ -42,6 +43,7 @@ void main(){
    
     bind_thread_to_cpu(1); 
     syscall(__NR_set_wrr_scheduler, getpid(), SCHED_WRR,  &weight );
+    //call for individual process weights
     int k = syscall(__NR_get_wrr_weight, getpid());
    // bind_thread_to_cpu(2);
  // sched_setscheduler(getpid(), SCHED_WRR, &weight);

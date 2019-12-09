@@ -4,7 +4,7 @@
  */
 
 #include <linux/slab.h>
-
+// DEF_TIMESLICE which invoked by sched_fork() to define the time slice has been used
 #define TIME_SLICE		DEF_TIMESLICE
 #define GROUP_TIME_SLICE	TIME_SLICE *  6 // This can be changed 
 
@@ -168,7 +168,7 @@ unsigned int get_rr_interval_wrr(struct task_struct *task){
         else
                 return 0;
 }
-/* added by Jia Rao: No preemption, so we leave this function empty */
+/* No preemption, so we leave this function empty */
 static void prio_changed_wrr(struct rq *rq, struct task_struct *p,
                               int oldprio, int running){
 }
